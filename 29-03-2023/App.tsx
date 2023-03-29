@@ -9,6 +9,8 @@ import React from 'react';
 
 import type {PropsWithChildren} from 'react';
 
+
+
 import {
   SafeAreaView,
   ScrollView,
@@ -16,11 +18,45 @@ import {
   Text,
   View,
   TextInput,
-  Button
+  Button,
+  FlatList
 } from 'react-native';
+
+
 
 function App(): JSX.Element {
   
+
+  const users = [
+    {
+        name:"Alex",
+        status:"Online"
+    },
+    {
+        name:"Mia",
+        status:"Online"
+    },
+    {
+        name:"Harry",
+        status:"Offline"
+    },
+    {
+        name:"Anita",
+        status:"Online"
+    },
+    {
+        name:"Mike",
+        status:"Offline"
+    },
+    {
+        name:"Joe",
+        status:"Online"
+    },
+    {
+        name:"Sam",
+        status:"Online"
+    },
+]
 
   return (
     <SafeAreaView>
@@ -51,6 +87,20 @@ function App(): JSX.Element {
         Forgot Password ?
       </Text>
       </View>
+      <FlatList
+        data={users}
+        renderItem = {({item})=> 
+        
+        <View style = {styles.card}>
+          <Text style = {styles.cardName}>
+            {item.name}
+          </Text>
+          <Text style = {styles.cardStatus}>
+            {item.status}
+          </Text>
+        </View>
+        }
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -94,6 +144,25 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: "center",
     marginVertical: 20,
+  },
+  card:{
+    flex: 1,
+    flexDirection : "row",
+    justifyContent: "space-between",
+    backgroundColor: "white",
+    width: "80%",
+    marginLeft: "10%",
+    margin:8,
+    borderRadius:5,
+    alignItems:"center"
+  },
+  cardName:{
+    fontSize: 26,
+    padding:8,
+    color:"black"
+  },
+  cardStatus:{
+    padding:8
   }
 });
 
