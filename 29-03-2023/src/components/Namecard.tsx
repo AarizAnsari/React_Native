@@ -1,27 +1,39 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 type PropType = {
     name: string,
-    status: string
+    email: string,
+    image: string,
+    title: string,
+    id: string,
+    props: { navigation: { navigate: (arg0: string, { }) => void } }
 }
 
-export default function Namecard(props: PropType) {
-    let statusColor = "#00CC00";
-    if (props.status == "Offline") {
-        statusColor = "grey";
-    }
+export default function Namecard(args: PropType) {
+
     return (
-        <View style={styles.card}>
-            <Text style={styles.cardName}>{props.name}</Text>
-            <View style={styles.statusbar}>
-                <Text>
-                    {props.status}
-                </Text>
-                <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: statusColor, margin: 10 }}></View>
+        <TouchableOpacity
+            onPress={() => args.props.navigation.navigate('Profile', {
+                name: args.name,
+                image: args.image,
+                title: args.title,
+                id: args.id,
+            })}
+        >
+            <View style={styles.card}>
+                <Image
+                    style={styles.avatar}
+                    source={
+                        { uri: args.image }
+                    }
+                />
+                <View style={styles.profiledata}>
+                    <Text style={styles.cardName}>{args.name}</Text>
+                    <Text>{args.email}</Text>
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -29,23 +41,33 @@ const styles = StyleSheet.create({
     card: {
         flex: 1,
         flexDirection: "row",
-        justifyContent: "space-between",
         backgroundColor: "white",
-        width: "80%",
-        marginLeft: "10%",
+        width: "90%",
         margin: 8,
         borderRadius: 5,
         alignItems: "center",
+        alignSelf: "center",
+        elevation: 5,
+        shadowColor: "black"
     },
     cardName: {
-        fontSize: 26,
-        padding: 8,
-        color: "black"
+        fontSize: 20,
+        padding: 5,
+        color: "black",
     },
-    statusbar: {
+    profile: {
         flex: 1,
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center"
+        flexDirection: "row"
+    },
+    avatar: {
+        height: 50,
+        width: 50,
+        borderRadius: 100,
+        margin: 3
+    },
+    profiledata: {
+        flex: 1,
+        alignItems: "center",
+        width: "100%"
     }
 })
