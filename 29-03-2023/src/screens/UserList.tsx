@@ -4,7 +4,8 @@ import { StyleSheet, Text, View, FlatList, ListRenderItemInfo } from 'react-nati
 import React, { useLayoutEffect, useState } from 'react'
 import Namecard from '../components/Namecard'
 import FlatListLoader from '../components/FlatListLoader';
-import Services from '../services/apiServices';
+import useUserData from '../hooks/useUserData';
+import { useSelector } from 'react-redux';
 
 
 export default function UserList(props: { navigation: { navigate: (arg0: string) => void } }) {
@@ -13,31 +14,24 @@ export default function UserList(props: { navigation: { navigate: (arg0: string)
         firstName: String,
         lastName: String,
         picture: string,
-        title:string,
-        id:string
-    }
-    
-    const [users, setUsers] = useState([]);
-    const [page, setPage] = useState(1);
-    const [loader, setLoader] = useState(true)
-
-    const getData = async (page: number) => {
-        if (page <= 4) {
-            let res = await Services.getAllUsers(page);
-            setLoader(true);
-            setUsers(users.concat(res?.data.data))
-        }
-        else {setLoader(true)}
+        title: string,
+        id: string
     }
 
+    const [page, setpage] = useState(1)
+
+    const [bodyStyle, setbodyStyle] = useState(styles.bodydark)
+    const theme = useSelector((state: { ThemeReducer: string }) => (state.ThemeReducer))
+
+    let users = useUserData(page);
     useLayoutEffect(() => {
-        getData(page);
-    }, []);
-
+        if (theme == 'light') {
+            setbodyStyle(styles.bodylight)
+        }
+    }, [theme])
     return (
-        <View style={styles.body}>
+        <View style={bodyStyle}>
             {
-
                 <FlatList
                     data={users}
                     renderItem={({ item }: ListRenderItemInfo<userItem>) =>
@@ -51,24 +45,25 @@ export default function UserList(props: { navigation: { navigate: (arg0: string)
                             props={props}
                         />
                     }
-                    onEndReached={() => { setLoader(false), setPage(page + 1), getData(page) }}
+                    onEndReached={() => { setpage(page + 1) }}
                 />
             }
-
-            <FlatListLoader
-                hidden={loader}
-            />
+            <FlatListLoader />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    body: {
+    bodydark: {
         backgroundColor: '#1d4a5d',
         height: "100%",
         flex: 1
     },
-
+    bodylight: {
+        backgroundColor: '#fcfafa',
+        height: "100%",
+        flex: 1
+    },
     card: {
         flex: 1,
         flexDirection: "row",

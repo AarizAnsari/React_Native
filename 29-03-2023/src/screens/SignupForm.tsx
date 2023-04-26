@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, Alert} from 'react-native'
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Services from '../services/apiServices';
@@ -6,16 +6,16 @@ import Loader from '../components/Loader';
 
 export default function SignupForm(props: { navigation: { navigate: (arg0: string) => void } }) {
 
-  const [username,setUsername] = useState("");
-  const [password,setPassword] = useState("");
-  const [warning,setWarning] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [warning, setWarning] = useState('');
 
   async function viewController(username: string, password: string) {
     await Services.userLogin(username, password)
-      .then(() => {props.navigation.navigate('Users') })
-      .catch(() =>{Alert.alert('Invalid username or Password')});
+      .then(() => { props.navigation.navigate('Users') })
+      .catch(() => { Alert.alert('Invalid username or Password') });
   }
-  
+
   return (
     <SafeAreaView>
       <ScrollView style={styles.body}>
@@ -42,20 +42,20 @@ export default function SignupForm(props: { navigation: { navigate: (arg0: strin
             placeholderTextColor="#ffffff"
             secureTextEntry
             onChangeText={(val) => {
-                if(val == password){setWarning('')}
-                else{setWarning('Passwords dont match')}
+              if (val == password) { setWarning('') }
+              else { setWarning('Passwords dont match') }
             }}
           />
-          <View style = {styles.warnbox}>
-            <Text style = {styles.warn}>{warning}</Text>
+          <View style={styles.warnbox}>
+            <Text style={styles.warn}>{warning}</Text>
           </View>
-          <Loader/>
+          <Loader />
           <View style={styles.button}>
             <Button
               title="Sign Up"
               color="#4DD8C1"
               onPress={() => {
-                viewController(username,password)
+                viewController(username, password)
               }}
             />
           </View>
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     color: "#4DD8C1",
     fontSize: 30,
     textAlign: "center",
-    marginBottom:40,
-    marginTop:"30%"
+    marginBottom: 40,
+    marginTop: "30%"
   },
   heading2: {
     fontWeight: "100",
@@ -102,23 +102,23 @@ const styles = StyleSheet.create({
   },
   footer: {
     color: 'white',
-    margin:10
+    margin: 10
   },
-  modal:{
-    flex:1,
-    justifyContent:"center",
-    alignItems:"center"
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   },
-  modalView:{
-    backgroundColor:"#0F2C3C",
-    padding:15,
-    borderRadius:10
+  modalView: {
+    backgroundColor: "#0F2C3C",
+    padding: 15,
+    borderRadius: 10
   },
-  warnbox:{
-    width:"80%",
-    alignSelf:"center"
+  warnbox: {
+    width: "80%",
+    alignSelf: "center"
   },
-  warn:{
-    color:"red"
+  warn: {
+    color: "red"
   }
 })

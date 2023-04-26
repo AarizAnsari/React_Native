@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from '../redux/store';
-import { LoaderVisible} from '../redux/LoaderAction';
+import { LoaderVisible} from '../redux/actions/LoaderAction';
 
 async function getApiData(url: string, method: string, body?: Object) {
     let response;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect } from 'react';
 import LoginForm from './src/screens/LoginForm';
 import UserList from './src/screens/UserList';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,11 +8,24 @@ import { LogBox } from 'react-native';
 import SignupForm from './src/screens/SignupForm';
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
-
+import ThemeButton from './src/components/ThemeButton';
+import {LightAction,DarkAction} from './src/redux/actions/DarkThemeAction'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ProductFilter from './src/screens/ProductFilter';
 
 const stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
+
+  async function setTheme(){
+   const theme = await AsyncStorage.getItem('theme');
+   if(theme === 'light'){store.dispatch(LightAction())}
+   else{store.dispatch(DarkAction())}
+  }
+
+  useLayoutEffect(() => {
+    setTheme();
+  }, [])
   LogBox.ignoreAllLogs();
   return (
     <Provider store={store}>
@@ -26,7 +39,8 @@ function App(): JSX.Element {
             {
               headerStyle: { backgroundColor: "#0F2C3C" },
               headerTitleStyle: { color: "#4DD8C1" },
-              statusBarColor: "#0F2C3C"
+              statusBarColor: "#0F2C3C",
+              headerRight: () => (<ThemeButton/>),
             }
           } />
 
@@ -66,6 +80,16 @@ function App(): JSX.Element {
             headerTintColor: "#4DD8C1",
             statusBarColor: "#0F2C3C",
           })} />
+
+<stack.Screen
+          name="Products"
+          component={ProductFilter}
+          options={
+            {
+              headerStyle: { backgroundColor: "white" },
+              statusBarColor: "white"
+            }
+          } />
       </stack.Navigator>
     </NavigationContainer>
     </Provider>

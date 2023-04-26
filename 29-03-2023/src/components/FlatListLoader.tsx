@@ -1,13 +1,14 @@
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-type visiblity = {
-  hidden:boolean
-}
 
-const FlatListLoader = (props:visiblity) => {
 
-  if(props.hidden == true){
+const FlatListLoader = () => {
+
+const show = useSelector((state:{LoaderReducer:boolean}) => state.LoaderReducer)
+
+  if(!show){
     return null;
   }   
   return (

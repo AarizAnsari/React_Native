@@ -1,8 +1,9 @@
-import { StyleSheet, View, Modal, ActivityIndicator, Text } from 'react-native'
+import { StyleSheet, View, ActivityIndicator} from 'react-native'
 import {useSelector} from 'react-redux'
 
 const Loader = () => {
   const show = useSelector((state:{LoaderReducer:boolean}) => state.LoaderReducer)
+  
   if(!show){return null}
   
   return (

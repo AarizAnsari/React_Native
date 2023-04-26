@@ -11,7 +11,7 @@ type PropType = {
 }
 
 export default function Namecard(args: PropType) {
-
+    
     return (
         <TouchableOpacity
             onPress={() => args.props.navigation.navigate('Profile', {
@@ -19,8 +19,10 @@ export default function Namecard(args: PropType) {
                 image: args.image,
                 title: args.title,
                 id: args.id,
-            })}
-        >
+                email: args.email
+            })
+              }>
+
             <View style={styles.card}>
                 <Image
                     style={styles.avatar}
@@ -30,7 +32,6 @@ export default function Namecard(args: PropType) {
                 />
                 <View style={styles.profiledata}>
                     <Text style={styles.cardName}>{args.name}</Text>
-                    <Text>{args.email}</Text>
                 </View>
             </View>
         </TouchableOpacity>

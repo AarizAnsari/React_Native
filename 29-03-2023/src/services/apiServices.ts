@@ -4,8 +4,8 @@ class Services {
     
     static async userLogin(username: string, password: string) {
         const result = await getApiData('https://reqres.in/api/login', 'POST', {
-            "email": username,
-            "password": password
+            "email": 'eve.holt@reqres.in',
+            "password": 'cityslicka'
         })
         return result;
     }
